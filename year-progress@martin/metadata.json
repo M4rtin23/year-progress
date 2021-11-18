@@ -1,0 +1,8 @@
+{
+    "description": "Year progress bar.",
+    "hide-decorations": true,
+    "uuid": "year-progress@martin",
+    "name": "Year Progress",
+    "author": "none",
+    "max-instances": "2"
+}

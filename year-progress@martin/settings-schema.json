@@ -1,0 +1,28 @@
+{
+ "head" : {
+    "type" : "header",
+    "description" : "Style"
+ },
+ "color" : {
+    "type" : "colorchooser",
+    "default" : "white",
+    "description" : "Bar's color",
+    "tooltip" : "Select a color for the bar"
+ },
+ "length" : {
+    "type" : "spinbutton",
+    "min" : 100,
+    "max" : 4000,
+    "default" : 400,
+    "step" : 10,
+    "units" : "pixels",
+    "description" : "Bar's length",
+    "tooltip" : "Select the length of the bar"
+ },
+ "day" : {
+      "type" : "checkbox",
+      "default" : false,
+      "description" : "Day progress",
+      "tooltip" : "Choose between year progress or day progress"
+ }
+}
