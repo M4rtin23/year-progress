@@ -35,33 +35,33 @@ MyDesklet.prototype = {
             global.logError(e);
         }
 
-        this._binaryClock = new St.DrawingArea();
+        this._progressBar = new St.DrawingArea();
 
 //        this.bs = this.settings.getValue("length");
         
-        this._binaryClock.width=this.bs;
-        this._binaryClock.height=20+10;
+        this._progressBar.width=this.bs;
+        this._progressBar.height=20+10;
         
-        this._binaryClock.connect('repaint', Lang.bind(this, this._onBinaryClockRepaint));
+        this._progressBar.connect('repaint', Lang.bind(this, this._onprogressBarRepaint));
 
-        this.setContent(this._binaryClock);
-        this.setHeader(_("Clock"));
+        this.setContent(this._progressBar);
+        this.setHeader(_("Bar"));
         this._upClient = new UPowerGlib.Client();
         try {
-            this._upClient.connect('notify-resume', Lang.bind(this, this._updateClock));
+            this._upClient.connect('notify-resume', Lang.bind(this, this._updateBar));
         } catch (e) {
-            this._upClient.connect('notify::resume', Lang.bind(this, this._updateClock));
+            this._upClient.connect('notify::resume', Lang.bind(this, this._updateBar));
         }
 
         this.on_setting_changed();
     },
 
     on_setting_changed: function() {
-        this._binaryClock.width=this.bs;		
-        this._updateClock();
+        this._progressBar.width=this.bs;
+        this._updateBar();
     },
 
-    _updateClock: function() {
+    _updateBar: function() {
         let displayDate = new Date();
         if(!this.isDay){
             this.title = "Year";
@@ -71,13 +71,13 @@ MyDesklet.prototype = {
             this._displayTime = displayDate.getHours() / 24;
         }
             
-        this._binaryClock.queue_repaint();
+        this._progressBar.queue_repaint();
 
-        Mainloop.timeout_add_seconds(1, Lang.bind(this, this._updateClock));
+        Mainloop.timeout_add_seconds(1, Lang.bind(this, this._updateBar));
         return false;
     },
 
-    _onBinaryClockRepaint: function(area) {
+    _onprogressBarRepaint: function(area) {
         let cr = area.get_context();
 
         cr.setOperator(Cairo.Operator.CLEAR);
@@ -89,12 +89,12 @@ MyDesklet.prototype = {
         cr.setLineWidth(LINE_WIDTH);
         let step = this.bs + LINE_WIDTH + 2; 
         cr.translate(MARGIN + (step - 2)/2, MARGIN + (step - 2)/2);
-        Clutter.cairo_set_source_color(cr, this._binaryClock.get_theme_node().get_foreground_color());
+        Clutter.cairo_set_source_color(cr, this._progressBar.get_theme_node().get_foreground_color());
 
-        cr.rectangle((0-this.bs/2),(10-this.bs/2),this._binaryClock.width*this._displayTime+5, LINE_WIDTH*5);
+        cr.rectangle((0-this.bs/2),(10-this.bs/2),this._progressBar.width*this._displayTime+5, LINE_WIDTH*5);
         cr.fill();
 
-        cr.rectangle((0-this.bs/2),(10-this.bs/2),this._binaryClock.width-10, LINE_WIDTH*5);
+        cr.rectangle((0-this.bs/2),(10-this.bs/2),this._progressBar.width-10, LINE_WIDTH*5);
         cr.stroke();
 
 
@@ -108,11 +108,11 @@ MyDesklet.prototype = {
 
 
 
-        let children = this._binaryClock.get_children();
+        let children = this._progressBar.get_children();
         for (let i = 0; i < children.length; i++) {
-            this._binaryClock.remove_actor(children[i]);
+            this._progressBar.remove_actor(children[i]);
         }
-        this._binaryClock.add_actor(this.text);
+        this._progressBar.add_actor(this.text);
 
         this.setContent(this.window);
     }
