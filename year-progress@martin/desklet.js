@@ -30,6 +30,7 @@ MyDesklet.prototype = {
             this.settings.bindProperty(Settings.BindingDirection.IN, "color", "fg_color", this.on_setting_changed, null);
             this.settings.bindProperty(Settings.BindingDirection.IN, "length", "bs", this.on_setting_changed, null);
             this.settings.bindProperty(Settings.BindingDirection.IN, "day", "isDay", this.on_setting_changed, null);
+            this.settings.bindProperty(Settings.BindingDirection.IN, "startingHour", "startingHour", this.on_setting_changed, null);
 
         }catch(e){
             global.logError(e);
@@ -68,7 +69,10 @@ MyDesklet.prototype = {
             this._displayTime = (displayDate.getDate()+displayDate.getMonth()*30)/365;
         }else{
             this.title = "Day";
-            this._displayTime = displayDate.getHours() / 24;
+            this._displayTime = (displayDate.getHours() + displayDate.getMinutes()/60 - this.startingHour) / (24 - this.startingHour);
+            if(this._displayTime < 0){
+                this._displayTime = 0;
+            }
         }
             
         this._progressBar.queue_repaint();

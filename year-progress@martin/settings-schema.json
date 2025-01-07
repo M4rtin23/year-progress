@@ -24,5 +24,14 @@
       "default" : false,
       "description" : "Day progress",
       "tooltip" : "Choose between year progress or day progress"
+ },
+ "startingHour" : {
+    "type" : "spinbutton",
+    "min" : 0,
+    "max" : 23,
+    "default" : 0,
+    "step" : 1,
+    "description" : "Time of day to start counting",
+    "tooltip" : "When you start the day you may not want to see the day has already progressed, you can select when you start the day. It still ends at midnight."
  }
 }
