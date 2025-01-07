@@ -36,8 +36,6 @@ MyDesklet.prototype = {
         }
 
         this._binaryClock = new St.DrawingArea();
-        this.alreadySet = 0;
-        
 
 //        this.bs = this.settings.getValue("length");
         
@@ -107,10 +105,15 @@ MyDesklet.prototype = {
         this.text = new St.Entry();
         
         this.text.set_text(this.title + " Progress " + ~~(this._displayTime*100 + 2/3) + "%");
-        if(this.alreadySet != 1){
-            this._binaryClock.add_actor(this.text);//añade no cambia
-            this.alreadySet = 1;
+
+
+
+        let children = this._binaryClock.get_children();
+        for (let i = 0; i < children.length; i++) {
+            this._binaryClock.remove_actor(children[i]);
         }
+        this._binaryClock.add_actor(this.text);
+
         this.setContent(this.window);
     }
 }
